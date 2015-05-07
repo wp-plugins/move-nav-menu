@@ -5,7 +5,7 @@ Description: Moves the "Menus"-tab (nav menus) to the main menu (out of Appearan
 Plugin URI: http://tormorten.no
 Author: Tor Morten Jensen
 Author URI: http://tormorten.no
-Version: 1.0.0
+Version: 1.0.1
 License: GPL2
 Text Domain: move-menu
 Domain Path: lang
@@ -35,15 +35,19 @@ Domain Path: lang
  */
 function mm_move_menu() {
 
-	global $submenu;
+    global $submenu;
+    
+    if(isset($submenu['themes.php'])) {
 
-	foreach($submenu['themes.php'] as $key => $item) {
-		if($item[2] === 'nav-menus.php') {
-			unset($submenu['themes.php'][$key]);
-		}
-	}
-
-	add_menu_page( __('Menus'), __('Menus'), 'edit_theme_options', 'nav-menus.php', '', 'dashicons-list-view', 61 );
+        foreach($submenu['themes.php'] as $key => $item) {
+            if($item[2] === 'nav-menus.php') {
+                unset($submenu['themes.php'][$key]);
+            }
+        }
+    }
+    
+    
+    add_menu_page( __('Menus'), __('Menus'), 'edit_theme_options', 'nav-menus.php', '', 'dashicons-list-view', 61 );
 
 }
 

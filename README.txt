@@ -4,7 +4,7 @@ Donate link: http://tormorten.no
 Tags: move,nav-menu,nav,menu,move nav,admin,admin menu
 Requires at least: 4.2
 Tested up to: 4.2.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 
 Moves the WordPress nav-menu item in admin to a new top level page. Out of "Appearance".
 
@@ -27,6 +27,9 @@ None has been asked sir.
 No!
 
 == Changelog ==
+
+= 1.0.1
+* Fixes minor error which causes a warning.
 
 = 1.0 =
 * First version
