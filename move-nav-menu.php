@@ -5,7 +5,7 @@ Description: Moves the "Menus"-tab (nav menus) to the main menu (out of Appearan
 Plugin URI: http://tormorten.no
 Author: Tor Morten Jensen
 Author URI: http://tormorten.no
-Version: 1.0.1
+Version: 1.0.2
 License: GPL2
 Text Domain: move-menu
 Domain Path: lang
@@ -35,7 +35,7 @@ Domain Path: lang
  */
 function mm_move_menu() {
 
-    global $submenu;
+    global $submenu, $menu;
     
     if(isset($submenu['themes.php'])) {
 
@@ -45,9 +45,15 @@ function mm_move_menu() {
             }
         }
     }
+
+    $user = wp_get_current_user();
+
+    if(in_array('editor', $user->roles)) {
+        unset($menu[60]);
+    }
     
     
-    add_menu_page( __('Menus'), __('Menus'), 'edit_theme_options', 'nav-menus.php', '', 'dashicons-list-view', 61 );
+    add_menu_page( __('Menus'), __('Menus'), 'delete_others_pages', 'nav-menus.php', '', 'dashicons-list-view', 61 );
 
 }
 
@@ -70,3 +76,18 @@ function mm_menu_parent_file($parent_file){
 }
 
 add_filter('parent_file', 'mm_menu_parent_file');
+
+/**
+ * Fixes the problem where the capability is wrong
+ * @return void
+ **/
+function mm_has_cap($caps, $cap, $args, $user) {
+    $url = $_SERVER['REQUEST_URI'];
+
+    if(strpos($url, 'nav-menus.php') !== false && in_array('edit_theme_options', $cap) && in_array('editor', $user->roles)) {
+        $caps['edit_theme_options'] = true;
+    }
+    return $caps;
+}
+
+add_filter('user_has_cap', 'mm_has_cap', 20, 4);
